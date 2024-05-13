@@ -1,0 +1,11 @@
+#cache
+*__pycache__
+
+#settings project
+.idea/
+
+#results allure
+results
+
+#venv
+.venv
