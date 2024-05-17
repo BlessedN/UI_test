@@ -16,11 +16,11 @@ def test_run_browser(browser):
     browser.open(url='https://www.chitai-gorod.ru/')
 
     with allure.step('Поиск книги'):
-        browser.send_keys(xpath='//input[@placeholder]',
+        browser.send_keys(locator='//input[@placeholder]',
                           keys='Ремарк Три товарища')
         assert browser.xpath(
             '(//button[@aria-label])[2]'
-        ), 'Кнопка "поиск" не найдена'
+        )[0], 'Кнопка "поиск" не найдена'
         browser.find_button_and_click('(//button[@aria-label])[2]')
         allure.attach(
             browser.driver.get_screenshot_as_png(),
@@ -45,7 +45,7 @@ def test_run_browser(browser):
 
     with allure.step('Поиск книги по наименьшей стоимости'):
         books_price_min = browser.get_min_cost_book(
-            xpath='//div[contains(@class,"list")]//*[contains(text(), " ₽" ) and contains(@class,"discount")]'
+            locator='//div[contains(@class,"list")]//*[contains(text(), " ₽" ) and contains(@class,"discount")]'
         )
         allure.attach(str(books_price_min), name="Минимальная цена книги",
                       attachment_type=AttachmentType.TEXT)
@@ -56,10 +56,10 @@ def test_run_browser(browser):
     with allure.step('Помещение книги с мин.стоимостью в корзину'):
         browser.scroll_by(limit=300)
         browser.find_button_and_click(
-            xpath=f'(//*[contains(text(), "{books_price_min}")])[1]/../../../div[3]//span'
+            locator=f'(//*[contains(text(), "{books_price_min}")])[1]/../../../div[3]//span'
         )
         browser.find_button_and_click(
-            xpath='//a[@href="/cart"]'
+            locator='//a[@href="/cart"]'
         )
         allure.attach(
             browser.driver.get_screenshot_as_png(),
